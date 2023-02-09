@@ -1,0 +1,50 @@
+# Default values for crm.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 2
+
+image:
+  name: "us-central1-docker.pkg.dev/task-1-375619/crm/nextjs-docker:latest"
+
+autoscaling: 
+  enabled: false
+  min: 1
+  max: 5
+  averageUtilization: 80
+
+#db settings
+mongodb:
+  credentials:
+    rootUser: root
+    rootPassword: root
+    #to create other users and db.... list style
+  usernames: []
+  passwords: []
+  databases: []
+  replicaCount: 3
+
+cert-manager:
+  installCRDs: false
+
+
+cronjob:
+  enabled: true
+
+ingress:
+  enabled: true
+  host: crm-dvir.ddns.net
+  tls: 
+    enabled: false
+    email: "pashutdvir@gmail.com"
+
+resources: {
+  limits: { cpu: 150m, memory: 128Mi },
+  requests: { cpu: 75m, memory: 64Mi } 
+  }
+
+
+# ingress-nginx:
+#   controller:
+#     service:
+#       loadBalancerIP: 34.149.159.85

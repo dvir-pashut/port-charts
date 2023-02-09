@@ -1,0 +1,68 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: {{.Chart.Name}}-deplyment
+  #namespace: "project"
+  labels:
+    app: "app"
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: "app"
+  template:
+    metadata:
+      labels:
+        app: "app"
+    spec:
+      containers:
+      - name: app
+        image: {{ .Values.image.name }}
+        resources:
+{{toYaml .Values.resources | indent 12}}
+        env:
+        # - name: MONGODB_URI
+        #   valueFrom:
+        #     secretKeyRef: 
+        #       name: mysecret
+        #       key: mongo-url
+        - name: PERSISTENCE
+          valueFrom:
+            configMapKeyRef: 
+              name: mongo-stuff
+              key: presistance
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef: 
+              name: mongo-stuff
+              key: log_level
+        - name: MONGODB_URI
+          valueFrom:
+            configMapKeyRef: 
+              name: mongo-stuff
+              key: mongo-url
+      # imagePullSecrets:
+      # - name: regcred
+---
+{{- if .Values.autoscaling.enabled }}
+apiVersion: "autoscaling/v2"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: {{.Chart.Name}}-autoscaling
+  labels:
+    app: "app"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "app"
+    apiVersion: "apps/v1"
+  minReplicas: {{.Values.autoscaling.min }}
+  maxReplicas: {{.Values.autoscaling.max }}
+  metrics:
+  - type: "Resource"
+    resource:
+      name: "cpu"
+      target:
+        type: "Utilization"
+        averageUtilization: {{.Values.autoscaling.averageUtilization }}
+{{- end }}
