@@ -4,6 +4,6 @@ metadata:
   name: mongo-sec
 type: Opaque
 data:
-    mongodb-root-password: cGFzc3dvcmQK
-    mongodb-replica-set-key: cGFzc3dvcmQK
-    mongodb-passwords: cGFzc3dvcmQK
+    mongodb-root-password: cGFzc3dvcmQ=
+    mongodb-replica-set-key: cGFzc3dvcmQ=
+    mongodb-passwords: cGFzc3dvcmQ=

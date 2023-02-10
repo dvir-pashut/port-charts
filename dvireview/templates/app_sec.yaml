@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysecret
+type: Opaque
+data:
+    db-username: ZHZpcg==
+    db-password: cGFzc3dvcmQ=

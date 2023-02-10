@@ -2,14 +2,14 @@
 apiVersion: "v1"
 kind: "Service"
 metadata:
-  name: "{{.Chart.Name}}-service"
+  name: "dvireview-service"
   labels:
     app: "app"
 spec:
   ports:
   - protocol: "TCP"
     port: 80
-    targetPort: 3000
+    targetPort: 5000
   selector:
     app: "app"
 {{- if .Values.ingress.enabled }}

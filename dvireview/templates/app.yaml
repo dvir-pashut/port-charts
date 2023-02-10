@@ -17,32 +17,28 @@ spec:
     spec:
       containers:
       - name: app
-        image: {{ .Values.image.name }}
+        image: {{ .Values.image.name }}:{{ .Values.image.tag }}
         resources:
 {{toYaml .Values.resources | indent 12}}
         env:
-        # - name: MONGODB_URI
-        #   valueFrom:
-        #     secretKeyRef: 
-        #       name: mysecret
-        #       key: mongo-url
-        - name: PERSISTENCE
+        - name: REALEAS
           valueFrom:
             configMapKeyRef: 
               name: mongo-stuff
-              key: presistance
-        - name: LOG_LEVEL
+              key: releas_name
+        - name: MONGO_INITDB_ROOT_USERNAME
           valueFrom:
-            configMapKeyRef: 
-              name: mongo-stuff
-              key: log_level
-        - name: MONGODB_URI
+            secretKeyRef: 
+              name: mysecret
+              key: db-username
+        - name: MONGO_INITDB_ROOT_PASSWORD
           valueFrom:
-            configMapKeyRef: 
-              name: mongo-stuff
-              key: mongo-url
-      # imagePullSecrets:
-      # - name: regcred
+            secretKeyRef: 
+              name: mysecret
+              key: db-password
+      imagePullSecrets:
+      - name: regcred
+
 ---
 {{- if .Values.autoscaling.enabled }}
 apiVersion: "autoscaling/v2"
@@ -54,7 +50,7 @@ metadata:
 spec:
   scaleTargetRef:
     kind: "Deployment"
-    name: "app"
+    name: {{.Chart.Name}}-deplyment
     apiVersion: "apps/v1"
   minReplicas: {{.Values.autoscaling.min }}
   maxReplicas: {{.Values.autoscaling.max }}
