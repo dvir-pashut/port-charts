@@ -15,14 +15,14 @@ autoscaling:
 
 #db settings
 mongodb:
-  credentials:
-    rootUser: root
-    rootPassword: root
-    #to create other users and db.... list style
-  usernames: []
-  passwords: []
-  databases: []
   replicaCount: 3
+  auth:
+    rootUser: root
+    #to create other users and db.... list style
+    usernames: []
+    databases: []
+    existingSecret: mongo-sec
+    
 
 cert-manager:
   installCRDs: false
