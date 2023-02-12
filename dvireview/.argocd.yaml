@@ -1,4 +1,5 @@
 helm:
+  parameters:
   - name: image.tag
     value: 1.2.1
     forcestring: true
