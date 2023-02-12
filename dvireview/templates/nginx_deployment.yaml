@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: us-docker.pkg.dev/task-1-375619/port-nginx/port-nginx:{{ .Values.image.tag }}
+        image: us-docker.pkg.dev/task-1-375619/port-nginx/port-nginx:0.1
       imagePullSecrets:
       - name: regcred
