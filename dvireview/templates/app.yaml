@@ -39,6 +39,7 @@ spec:
       imagePullSecrets:
       - name: regcred
 
+
 ---
 {{- if .Values.autoscaling.enabled }}
 apiVersion: "autoscaling/v2"
