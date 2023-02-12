@@ -31,7 +31,7 @@ nginx:
   replicaCount: 2
     
 ingress:
-  enabled: false
+  enabled: true
   host: dvir-crm.ddnsking.com
   tls: 
     enabled: true 
