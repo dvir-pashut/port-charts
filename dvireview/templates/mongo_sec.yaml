@@ -3,7 +3,7 @@
   "apiVersion": "bitnami.com/v1alpha1",
   "metadata": {
     "name": "mongo-sec",
-    "namespace": "default",
+    "namespace": "application",
     "creationTimestamp": null
   },
   "spec": {
