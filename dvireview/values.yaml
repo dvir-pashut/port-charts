@@ -34,7 +34,7 @@ ingress:
   enabled: true
   host: dvir-crm.ddnsking.com
   tls: 
-    enabled: true 
+    enabled: false 
     email: "pashutdvir@gmail.com"
 
 resources: {
