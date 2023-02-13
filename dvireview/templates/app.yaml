@@ -36,8 +36,8 @@ spec:
             secretKeyRef: 
               name: mysecret
               key: db-password
-      imagePullSecrets:
-      - name: regcred
+      # imagePullSecrets:
+      # - name: regcred
 
 
 ---

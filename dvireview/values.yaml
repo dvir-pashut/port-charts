@@ -11,7 +11,7 @@ image:
 autoscaling: 
   enabled: true
   min: 3
-  max: 5
+  max: 50
   averageUtilization: 80
 
 #db settings
