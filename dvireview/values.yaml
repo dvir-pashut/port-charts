@@ -37,6 +37,10 @@ ingress:
     enabled: true 
     email: "pashutdvir@gmail.com"
 
+kibana:
+  serviceName: "elasticsearch-kibana"
+  port: "5601"
+
 resources: {
   limits: { cpu: 150m, memory: 128Mi },
   requests: { cpu: 75m, memory: 64Mi } 
