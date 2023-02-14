@@ -32,7 +32,7 @@ nginx:
     
 ingress:
   enabled: true
-  host: dvir-crm.ddnsking.com
+  host: dvireview.ddns.net
   tls: 
     enabled: true 
     email: "pashutdvir@gmail.com"
