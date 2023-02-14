@@ -26,7 +26,7 @@ spec:
           value: "{{ .Values.kibana.serviceName }}"
         - name: KIBANA_PORT
           value: "{{ .Values.kibana.port }}"
-        command: ["/bin/sh","/opt/kibana/curl-script.sh"]
+        command: ["/bin/sh","kibana/curl-script.sh"]
         volumeMounts:
         - name: kibana-data
           mountPath: /kibana/
