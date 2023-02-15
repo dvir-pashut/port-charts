@@ -129,7 +129,7 @@ data:
         "version": "WzczNCwxXQ==",
         "attributes": {
           "fieldAttrs": "{\"x_forwarded_for.keyword\":{\"count\":1}}",
-          "title": "logstash-2023.02.14",
+          "title": "fluentd",
           "timeFieldName": "@timestamp",
           "sourceFilters": "[]",
           "fields": "[]",
