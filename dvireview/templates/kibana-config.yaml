@@ -49,7 +49,7 @@ data:
     import_dashboards
 
   file.ndjson: |
-    {"attributes":{"fieldAttrs":"{\"x_forwarded_for.keyword\":{\"count\":1}}","fieldFormatMap":"{}","fields":"[]","name":"dvireview","runtimeFieldMap":"{}","sourceFilters":"[]","timeFieldName":"@timestamp","title":"logstash-2023.02.14","typeMeta":"{}"},"coreMigrationVersion":"8.6.0","created_at":"2023-02-14T11:24:08.695Z","id":"324e1964-0e1d-4206-a778-56cc90bf5139","migrationVersion":{"index-pattern":"8.0.0"},"references":[],"type":"index-pattern","updated_at":"2023-02-14T11:35:31.616Z","version":"WzczNCwxXQ=="}
+    {"attributes":{"fieldAttrs":"{\"x_forwarded_for.keyword\":{\"count\":1}}","fieldFormatMap":"{}","fields":"[]","name":"dvireview","runtimeFieldMap":"{}","sourceFilters":"[]","timeFieldName":"@timestamp","title":"fluentd","typeMeta":"{}"},"coreMigrationVersion":"8.6.0","created_at":"2023-02-14T11:24:08.695Z","id":"324e1964-0e1d-4206-a778-56cc90bf5139","migrationVersion":{"index-pattern":"8.0.0"},"references":[],"type":"index-pattern","updated_at":"2023-02-14T11:35:31.616Z","version":"WzczNCwxXQ=="}
     {"excludedObjects":[],"excludedObjectsCount":0,"exportedCount":1,"missingRefCount":0,"missingReferences":[]}  
 
   file.json: |
