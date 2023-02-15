@@ -41,7 +41,6 @@ data:
           printf "\n########## Failure while importing dashboards #############\n"
         fi
         echo ${OUTPUT}
-        sleep 100
     }
     
     wait_for_kibana
