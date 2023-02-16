@@ -6,6 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.11.1
   creationTimestamp: null
   name: servicemonitors.monitoring.coreos.com
+  namespace: monitoring
 spec:
   group: monitoring.coreos.com
   names:
