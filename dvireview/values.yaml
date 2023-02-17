@@ -44,8 +44,8 @@ ingress:
   tls: 
     enabled: true 
     email: "pashutdvir@gmail.com"
-    secrete_name: my-secreat
-    issuer_name: letsencrypt-prod
+    secrete_name: "my-secreat"
+    issuer_name: "letsencrypt-prod"
 
 
 resources: {
