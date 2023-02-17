@@ -8,7 +8,6 @@ data:
   curl-script.sh: |
     #!bin/sh
     cd grafana
-    echo "${slack_webhook}"
     echo "waiting for grafana to be ready"
     check=1
     while [ $check == 1 ]
