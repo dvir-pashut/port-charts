@@ -22,7 +22,7 @@ data:
     sleep 1
 
     echo "creating new folder for the alerts"
-    curl -X POST ${GRAFANA_URL}:${GRAFANA_PORT}/api/folders  -d @folder.json --user "${adminuser}:${adminpassword}"  -H "Content-Type: application/json"  &> /dev/null || { echo "faild creating folder" }
+    curl -X POST ${GRAFANA_URL}:${GRAFANA_PORT}/api/folders  -d @folder.json --user "${adminuser}:${adminpassword}"  -H "Content-Type: application/json"  &> /dev/null || { echo "faild creating folder"; }
     echo "folder created"
     sleep 1 
 
