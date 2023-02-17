@@ -8,9 +8,6 @@ data:
   curl-script.sh: |
     #!bin/sh
 
-    yum install epel-release -y
-    yum update -y
-    yum install jq -y 
     cd grafana
     echo "waiting for grafana to be ready"
     check=1
@@ -18,14 +15,14 @@ data:
     do
       check=0
       echo "looking for ${GRAFANA_URL}:${GRAFANA_PORT}"
-      curl -i ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/contact-points --user "${adminuser}:${adminpassword}" &> /dev/null  || {  echo "not ready yet" && check=1; } 
+      curl -i ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/contact-points --user "${adminuser}:${adminpassword}" &> /dev/null  || { echo "not ready yet" && check=1; } 
       sleep 5
     done
     echo "grafana is ready"
     sleep 1
 
     echo "creating new folder for the alerts"
-    curl -X POST ${GRAFANA_URL}:${GRAFANA_PORT}/api/folders  -d @folder.json --user "${adminuser}:${adminpassword}"  -H "Content-Type: application/json"  &> /dev/null
+    curl -X POST ${GRAFANA_URL}:${GRAFANA_PORT}/api/folders  -d @folder.json --user "${adminuser}:${adminpassword}"  -H "Content-Type: application/json"  &> /dev/null || { echo "faild creating folder" }
     echo "folder created"
     sleep 1 
 
@@ -48,10 +45,6 @@ data:
     sleep 1
     curl -X PUT ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/policies  --user "${adminuser}:${adminpassword}" -d @notification_channel.json -H "Content-Type: application/json"   &> /dev/null
     echo done 
-
-    #deleting the default contact point
-    DEAFULT_UID=$(curl -X GET ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/contact-points --user "${adminuser}:${adminpassword}" | jq -r '.[0].uid')
-    curl -X DELETE ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/contact-points/$DEAFULT_UID --user "${adminuser}:${adminpassword}"
 
 
     ##to get the stuff you made hardcoded use this routes
