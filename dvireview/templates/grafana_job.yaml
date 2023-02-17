@@ -23,9 +23,9 @@ spec:
         imagePullPolicy: IfNotPresent
         env:
         - name: GRAFANA_URL
-          value: "{{ .Values.kibana.serviceName }}"
+          value: "{{ .Values.grafana.serviceName }}"
         - name: GRAFANA_PORT
-          value: "{{ .Values.kibana.port }}"
+          value: "{{ .Values.grafana.port }}"
         - name: adminuser
           valueFrom:
             secretKeyRef: 
