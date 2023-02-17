@@ -8,6 +8,9 @@ data:
   curl-script.sh: |
     #!bin/sh
 
+    yum install epel-release -y
+    yum update -y
+    yum install jq -y 
     cd grafana
     # cat contacts.json > c.json
     # sed -i "s/here/${slack_webhook//\//\\/}/g" c.json  
@@ -18,14 +21,14 @@ data:
     do
       check=0
       echo "looking for ${GRAFANA_URL}:${GRAFANA_PORT}"
-      curl -i ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/contact-points --user "${adminuser}:${adminpassword}" &> /dev/null  || { echo "not ready yet" && check=1; } 
+      curl -i ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/contact-points --user "${adminuser}:${adminpassword}" &> /dev/null  || {  echo "not ready yet" && check=1; } 
       sleep 5
     done
     echo "grafana is ready"
     sleep 1
 
     echo "creating new folder for the alerts"
-    curl -X POST ${GRAFANA_URL}:${GRAFANA_PORT}/api/folders  -d @folder.json --user "${adminuser}:${adminpassword}"  -H "Content-Type: application/json"  &> /dev/null 
+    curl -X POST ${GRAFANA_URL}:${GRAFANA_PORT}/api/folders  -d @folder.json --user "${adminuser}:${adminpassword}"  -H "Content-Type: application/json"  &> /dev/null
     echo "folder created"
     sleep 1 
 
@@ -49,9 +52,12 @@ data:
     curl -X PUT ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/policies  --user "${adminuser}:${adminpassword}" -d @notification_channel.json -H "Content-Type: application/json"   &> /dev/null
     echo done 
 
+
     ##to get the stuff you made hardcoded use this routes
     ###curl ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/alert-rules/<uid> --user "admin:password" 
     ###curl ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/contact-points --user "admin:password"
+
+
 
   alert1.json: |
     {"id":1,"uid":"u2tTI01Vz","orgID":1,"folderUID":"VU7TI01Vz","ruleGroup":"me","title":"memory cpu ","condition":"C","data":[{"refId":"A","queryType":"","relativeTimeRange":{"from":600,"to":0},"datasourceUid":"PBFA97CFB590B2093","model":{"editorMode":"code","expr":"(sum by (node)(rate(node_cpu_seconds_total{mode!=\"idle\"}[2m]))*100)","hide":false,"intervalMs":1000,"legendFormat":"__auto","maxDataPoints":43200,"range":true,"refId":"A"}},{"refId":"B","queryType":"","relativeTimeRange":{"from":600,"to":0},"datasourceUid":"-100","model":{"conditions":[{"evaluator":{"params":[],"type":"gt"},"operator":{"type":"and"},"query":{"params":["B"]},"reducer":{"params":[],"type":"last"},"type":"query"}],"datasource":{"type":"__expr__","uid":"-100"},"expression":"A","hide":false,"intervalMs":1000,"maxDataPoints":43200,"reducer":"last","refId":"B","type":"reduce"}},{"refId":"C","queryType":"","relativeTimeRange":{"from":600,"to":0},"datasourceUid":"-100","model":{"conditions":[{"evaluator":{"params":[80],"type":"gt"},"operator":{"type":"and"},"query":{"params":["C"]},"reducer":{"params":[],"type":"last"},"type":"query"}],"datasource":{"type":"__expr__","uid":"-100"},"expression":"B","hide":false,"intervalMs":1000,"maxDataPoints":43200,"refId":"C","type":"threshold"}}],"updated":"2023-02-16T16:01:21Z","noDataState":"NoData","execErrState":"Error","for":"1m"}
