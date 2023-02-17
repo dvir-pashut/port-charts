@@ -2,16 +2,17 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+######app configuration#####
 replicaCount: 3
-
 image:
   name: "us-docker.pkg.dev/task-1-375619/dvireview/dvireview"
   tag: 1.4.7
+app_service_name: "dvireview-service"
 
 autoscaling: 
   enabled: true
   min: 3
-  max: 50
+  max: 6
   averageUtilization: 80
 
 #db settings
@@ -29,17 +30,23 @@ mongodb:
   
 nginx:
   replicaCount: 2
+  autoscaling: 
+    enabled: true
+    min: 2
+    max: 4
+    averageUtilization: 80
+  service_name: "nginx-service"
     
 ingress:
   enabled: true
+  ingerss_calss_name: nginx
   host: dvireview.ddns.net
   tls: 
     enabled: true 
     email: "pashutdvir@gmail.com"
+    secrete_name: my-secreat
+    issuer_name: letsencrypt-prod
 
-kibana:
-  serviceName: "elasticsearch-kibana"
-  port: "5601"
 
 resources: {
   limits: { cpu: 150m, memory: 128Mi },
@@ -50,3 +57,149 @@ resources: {
 grafana:
   serviceName: "grafana"
   port: "80"
+  auto_load_alerts:
+    enabled: true
+    alert1_jason: |
+      {"id":1,"uid":"u2tTI01Vz","orgID":1,"folderUID":"VU7TI01Vz","ruleGroup":"me","title":"memory cpu ","condition":"C","data":[{"refId":"A","queryType":"","relativeTimeRange":{"from":600,"to":0},"datasourceUid":"PBFA97CFB590B2093","model":{"editorMode":"code","expr":"(sum by (node)(rate(node_cpu_seconds_total{mode!=\"idle\"}[2m]))*100)","hide":false,"intervalMs":1000,"legendFormat":"__auto","maxDataPoints":43200,"range":true,"refId":"A"}},{"refId":"B","queryType":"","relativeTimeRange":{"from":600,"to":0},"datasourceUid":"-100","model":{"conditions":[{"evaluator":{"params":[],"type":"gt"},"operator":{"type":"and"},"query":{"params":["B"]},"reducer":{"params":[],"type":"last"},"type":"query"}],"datasource":{"type":"__expr__","uid":"-100"},"expression":"A","hide":false,"intervalMs":1000,"maxDataPoints":43200,"reducer":"last","refId":"B","type":"reduce"}},{"refId":"C","queryType":"","relativeTimeRange":{"from":600,"to":0},"datasourceUid":"-100","model":{"conditions":[{"evaluator":{"params":[80],"type":"gt"},"operator":{"type":"and"},"query":{"params":["C"]},"reducer":{"params":[],"type":"last"},"type":"query"}],"datasource":{"type":"__expr__","uid":"-100"},"expression":"B","hide":false,"intervalMs":1000,"maxDataPoints":43200,"refId":"C","type":"threshold"}}],"updated":"2023-02-16T16:01:21Z","noDataState":"NoData","execErrState":"Error","for":"1m"}
+
+    alert2_jason: |
+      {"id":2,"uid":"y-8AS014z","orgID":1,"folderUID":"VU7TI01Vz","ruleGroup":"me","title":"nodes cpu","condition":"C","data":[{"refId":"A","queryType":"","relativeTimeRange":{"from":600,"to":0},"datasourceUid":"PBFA97CFB590B2093","model":{"editorMode":"code","expr":"(sum by(instance) (irate(node_cpu_seconds_total{mode!=\"idle\"}[2m])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total[2m])))) * 100","hide":false,"intervalMs":1000,"legendFormat":"__auto","maxDataPoints":43200,"range":true,"refId":"A"}},{"refId":"B","queryType":"","relativeTimeRange":{"from":600,"to":0},"datasourceUid":"-100","model":{"conditions":[{"evaluator":{"params":[],"type":"gt"},"operator":{"type":"and"},"query":{"params":["B"]},"reducer":{"params":[],"type":"last"},"type":"query"}],"datasource":{"type":"__expr__","uid":"-100"},"expression":"A","hide":false,"intervalMs":1000,"maxDataPoints":43200,"reducer":"last","refId":"B","type":"reduce"}},{"refId":"C","queryType":"","relativeTimeRange":{"from":600,"to":0},"datasourceUid":"-100","model":{"conditions":[{"evaluator":{"params":[60],"type":"gt"},"operator":{"type":"and"},"query":{"params":["C"]},"reducer":{"params":[],"type":"last"},"type":"query"}],"datasource":{"type":"__expr__","uid":"-100"},"expression":"B","hide":false,"intervalMs":1000,"maxDataPoints":43200,"refId":"C","type":"threshold"}}],"updated":"2023-02-16T16:01:21Z","noDataState":"NoData","execErrState":"Error","for":"1m"}
+
+    alert3_jason: |
+      {"id":3,"uid":"IjV-IAJ4z","orgID":1,"folderUID":"VU7TI01Vz","ruleGroup":"me","title":"ram usage","condition":"C","data":[{"refId":"A","queryType":"","relativeTimeRange":{"from":600,"to":0},"datasourceUid":"PBFA97CFB590B2093","model":{"editorMode":"code","expr":"node_memory_MemAvailable_bytes / 1024 / 1024","hide":false,"intervalMs":1000,"legendFormat":"__auto","maxDataPoints":43200,"range":true,"refId":"A"}},{"refId":"B","queryType":"","relativeTimeRange":{"from":600,"to":0},"datasourceUid":"-100","model":{"conditions":[{"evaluator":{"params":[],"type":"gt"},"operator":{"type":"and"},"query":{"params":["B"]},"reducer":{"params":[],"type":"last"},"type":"query"}],"datasource":{"type":"__expr__","uid":"-100"},"expression":"A","hide":false,"intervalMs":1000,"maxDataPoints":43200,"reducer":"last","refId":"B","type":"reduce"}},{"refId":"C","queryType":"","relativeTimeRange":{"from":600,"to":0},"datasourceUid":"-100","model":{"conditions":[{"evaluator":{"params":[5000],"type":"gt"},"operator":{"type":"and"},"query":{"params":["C"]},"reducer":{"params":[],"type":"last"},"type":"query"}],"datasource":{"type":"__expr__","uid":"-100"},"expression":"B","hide":false,"intervalMs":1000,"maxDataPoints":43200,"refId":"C","type":"threshold"}}],"updated":"2023-02-16T16:01:21Z","noDataState":"NoData","execErrState":"Error","for":"1m"}
+
+    folder_json: |
+      {"uid": "VU7TI01Vz","title": "alerts"}
+
+    contacts_json: |
+      {"uid":"jskMN0JVz","name":"grafana-notes","type":"slack","settings":{"url": "here" ,"username":"grafana"},"disableResolveMessage":false}
+
+    notification_channel_json: |
+      {"receiver":"grafana-notes","group_by":["grafana_folder","alertname"]}
+
+
+
+
+
+kibana:
+  serviceName: "elasticsearch-kibana"
+  port: "5601"
+  auto_load_dashboard:
+    enabled: true
+    dashboard_json: |
+     {
+      "version": "8.6.0",
+      "objects": [
+      {
+        "id": "8330ebe0-ac61-11ed-a41f-9110041f90aa",
+        "type": "dashboard",
+        "namespaces": [
+          "default"
+        ],
+        "updated_at": "2023-02-14T12:30:56.343Z",
+        "created_at": "2023-02-14T12:30:56.343Z",
+        "version": "WzE2MjMsMV0=",
+        "attributes": {
+          "kibanaSavedObjectMeta": {
+            "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[]}"
+          },
+          "timeRestore": false,
+          "optionsJSON": "{\"useMargins\":true,\"syncColors\":false,\"syncCursor\":true,\"syncTooltips\":false,\"hidePanelTitles\":false}",
+          "description": "of the app and some logs",
+          "panelsJSON": "[{\"version\":\"8.6.0\",\"type\":\"lens\",\"gridData\":{\"x\":0,\"y\":0,\"w\":17,\"h\":10,\"i\":\"37c5d686-8c68-4ef3-ba43-d77b391efe6e\"},\"panelIndex\":\"37c5d686-8c68-4ef3-ba43-d77b391efe6e\",\"embeddableConfig\":{\"attributes\":{\"title\":\"all logs across namespaces\",\"description\":\"sad\",\"visualizationType\":\"lnsPie\",\"type\":\"lens\",\"references\":[{\"type\":\"index-pattern\",\"id\":\"324e1964-0e1d-4206-a778-56cc90bf5139\",\"name\":\"indexpattern-datasource-layer-a8c67485-d3ca-4288-852e-008b9d6ef65d\"}],\"state\":{\"visualization\":{\"shape\":\"donut\",\"layers\":[{\"layerId\":\"a8c67485-d3ca-4288-852e-008b9d6ef65d\",\"primaryGroups\":[\"71781304-7089-404a-b789-e776416c63bf\"],\"metrics\":[\"13de876d-a2e4-4f80-b507-4651bc74152e\"],\"numberDisplay\":\"percent\",\"categoryDisplay\":\"default\",\"legendDisplay\":\"show\",\"nestedLegend\":false,\"layerType\":\"data\",\"emptySizeRatio\":0.3}]},\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filters\":[],\"datasourceStates\":{\"formBased\":{\"layers\":{\"a8c67485-d3ca-4288-852e-008b9d6ef65d\":{\"columns\":{\"71781304-7089-404a-b789-e776416c63bf\":{\"label\":\"Top 5 values of kubernetes.namespace_name.keyword\",\"dataType\":\"string\",\"operationType\":\"terms\",\"scale\":\"ordinal\",\"sourceField\":\"kubernetes.namespace_name.keyword\",\"isBucketed\":true,\"params\":{\"size\":5,\"orderBy\":{\"type\":\"column\",\"columnId\":\"13de876d-a2e4-4f80-b507-4651bc74152e\"},\"orderDirection\":\"desc\",\"otherBucket\":true,\"missingBucket\":false,\"parentFormat\":{\"id\":\"terms\"},\"include\":[],\"exclude\":[],\"includeIsRegex\":false,\"excludeIsRegex\":false}},\"13de876d-a2e4-4f80-b507-4651bc74152e\":{\"label\":\"Count of records\",\"dataType\":\"number\",\"operationType\":\"count\",\"isBucketed\":false,\"scale\":\"ratio\",\"sourceField\":\"___records___\",\"params\":{\"emptyAsNull\":true}}},\"columnOrder\":[\"71781304-7089-404a-b789-e776416c63bf\",\"13de876d-a2e4-4f80-b507-4651bc74152e\"],\"incompleteColumns\":{},\"sampling\":1}}},\"textBased\":{\"layers\":{}}},\"internalReferences\":[],\"adHocDataViews\":{}}},\"enhancements\":{}}},{\"version\":\"8.6.0\",\"type\":\"lens\",\"gridData\":{\"x\":17,\"y\":0,\"w\":14,\"h\":10,\"i\":\"6423407b-82e5-4594-9f1e-280de3eb8d1f\"},\"panelIndex\":\"6423407b-82e5-4594-9f1e-280de3eb8d1f\",\"embeddableConfig\":{\"attributes\":{\"title\":\"\",\"visualizationType\":\"lnsPie\",\"type\":\"lens\",\"references\":[{\"type\":\"index-pattern\",\"id\":\"324e1964-0e1d-4206-a778-56cc90bf5139\",\"name\":\"indexpattern-datasource-layer-7cc01091-ffa4-4ad8-ad43-54249142958b\"}],\"state\":{\"visualization\":{\"shape\":\"donut\",\"layers\":[{\"layerId\":\"7cc01091-ffa4-4ad8-ad43-54249142958b\",\"primaryGroups\":[\"b1c22517-50f5-4d2e-a7da-6b069a92dd97\"],\"metrics\":[\"0385da3f-4b33-4c5e-91bd-223646999810\"],\"numberDisplay\":\"percent\",\"categoryDisplay\":\"default\",\"legendDisplay\":\"default\",\"nestedLegend\":false,\"layerType\":\"data\"}]},\"query\":{\"query\":\"written_at : * \",\"language\":\"kuery\"},\"filters\":[],\"datasourceStates\":{\"formBased\":{\"layers\":{\"7cc01091-ffa4-4ad8-ad43-54249142958b\":{\"columns\":{\"b1c22517-50f5-4d2e-a7da-6b069a92dd97\":{\"label\":\"Top 5 values of method.keyword\",\"dataType\":\"string\",\"operationType\":\"terms\",\"scale\":\"ordinal\",\"sourceField\":\"method.keyword\",\"isBucketed\":true,\"params\":{\"size\":5,\"orderBy\":{\"type\":\"column\",\"columnId\":\"0385da3f-4b33-4c5e-91bd-223646999810\"},\"orderDirection\":\"desc\",\"otherBucket\":true,\"missingBucket\":false,\"parentFormat\":{\"id\":\"terms\"},\"include\":[],\"exclude\":[],\"includeIsRegex\":false,\"excludeIsRegex\":false}},\"0385da3f-4b33-4c5e-91bd-223646999810\":{\"label\":\"Count of records\",\"dataType\":\"number\",\"operationType\":\"count\",\"isBucketed\":false,\"scale\":\"ratio\",\"sourceField\":\"___records___\",\"params\":{\"emptyAsNull\":true}}},\"columnOrder\":[\"b1c22517-50f5-4d2e-a7da-6b069a92dd97\",\"0385da3f-4b33-4c5e-91bd-223646999810\"],\"incompleteColumns\":{},\"sampling\":1}}},\"textBased\":{\"layers\":{}}},\"internalReferences\":[],\"adHocDataViews\":{}}},\"hidePanelTitles\":false,\"enhancements\":{}},\"title\":\"methods in presentages\"},{\"version\":\"8.6.0\",\"type\":\"lens\",\"gridData\":{\"x\":31,\"y\":0,\"w\":17,\"h\":10,\"i\":\"aee607e5-6300-4e91-83ce-e1bb2602090e\"},\"panelIndex\":\"aee607e5-6300-4e91-83ce-e1bb2602090e\",\"embeddableConfig\":{\"attributes\":{\"title\":\"\",\"visualizationType\":\"lnsXY\",\"type\":\"lens\",\"references\":[{\"type\":\"index-pattern\",\"id\":\"324e1964-0e1d-4206-a778-56cc90bf5139\",\"name\":\"indexpattern-datasource-layer-a3aea70b-947b-49f1-b263-86f911c1f0bb\"},{\"type\":\"index-pattern\",\"name\":\"debb0bc9-726d-454a-8786-7ed023eef5c3\",\"id\":\"324e1964-0e1d-4206-a778-56cc90bf5139\"}],\"state\":{\"visualization\":{\"legend\":{\"isVisible\":true,\"position\":\"right\"},\"valueLabels\":\"hide\",\"fittingFunction\":\"None\",\"axisTitlesVisibilitySettings\":{\"x\":true,\"yLeft\":true,\"yRight\":true},\"tickLabelsVisibilitySettings\":{\"x\":true,\"yLeft\":true,\"yRight\":true},\"labelsOrientation\":{\"x\":0,\"yLeft\":0,\"yRight\":0},\"gridlinesVisibilitySettings\":{\"x\":true,\"yLeft\":true,\"yRight\":true},\"preferredSeriesType\":\"bar_stacked\",\"layers\":[{\"layerId\":\"a3aea70b-947b-49f1-b263-86f911c1f0bb\",\"seriesType\":\"bar_stacked\",\"xAccessor\":\"7c9a7990-e94c-402f-b4f9-77e39d3fa346\",\"accessors\":[\"05632c1b-d991-416a-aafe-3775af4ae864\"],\"layerType\":\"data\"}]},\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filters\":[{\"meta\":{\"index\":\"debb0bc9-726d-454a-8786-7ed023eef5c3\",\"alias\":null,\"negate\":false,\"disabled\":false,\"type\":\"exists\",\"key\":\"response_status\",\"value\":\"exists\"},\"query\":{\"exists\":{\"field\":\"response_status\"}},\"$state\":{\"store\":\"appState\"}}],\"datasourceStates\":{\"formBased\":{\"layers\":{\"a3aea70b-947b-49f1-b263-86f911c1f0bb\":{\"columns\":{\"7c9a7990-e94c-402f-b4f9-77e39d3fa346\":{\"label\":\"Top 5 values of response_status\",\"dataType\":\"number\",\"operationType\":\"terms\",\"scale\":\"ordinal\",\"sourceField\":\"response_status\",\"isBucketed\":true,\"params\":{\"size\":5,\"orderBy\":{\"type\":\"column\",\"columnId\":\"05632c1b-d991-416a-aafe-3775af4ae864\"},\"orderDirection\":\"desc\",\"otherBucket\":true,\"missingBucket\":false,\"parentFormat\":{\"id\":\"terms\"},\"include\":[],\"exclude\":[],\"includeIsRegex\":false,\"excludeIsRegex\":false}},\"05632c1b-d991-416a-aafe-3775af4ae864\":{\"label\":\"Count of response_status\",\"dataType\":\"number\",\"operationType\":\"count\",\"isBucketed\":false,\"scale\":\"ratio\",\"sourceField\":\"response_status\",\"params\":{\"emptyAsNull\":true}}},\"columnOrder\":[\"7c9a7990-e94c-402f-b4f9-77e39d3fa346\",\"05632c1b-d991-416a-aafe-3775af4ae864\"],\"incompleteColumns\":{},\"sampling\":1}}},\"textBased\":{\"layers\":{}}},\"internalReferences\":[],\"adHocDataViews\":{}}},\"hidePanelTitles\":false,\"enhancements\":{}},\"title\":\"response code count\"},{\"version\":\"8.6.0\",\"type\":\"lens\",\"gridData\":{\"x\":0,\"y\":10,\"w\":17,\"h\":10,\"i\":\"58169997-09b2-4b19-a355-b8e244a826dc\"},\"panelIndex\":\"58169997-09b2-4b19-a355-b8e244a826dc\",\"embeddableConfig\":{\"attributes\":{\"title\":\"\",\"visualizationType\":\"lnsPie\",\"type\":\"lens\",\"references\":[{\"type\":\"index-pattern\",\"id\":\"324e1964-0e1d-4206-a778-56cc90bf5139\",\"name\":\"indexpattern-datasource-layer-3051692e-df73-4068-a317-2c05473d9d2d\"}],\"state\":{\"visualization\":{\"shape\":\"donut\",\"layers\":[{\"layerId\":\"3051692e-df73-4068-a317-2c05473d9d2d\",\"primaryGroups\":[\"95b915af-97d2-4246-99cd-f6bb4314e89d\"],\"metrics\":[\"9cee9a07-57a9-47dd-9714-724b8e5d873a\"],\"numberDisplay\":\"percent\",\"categoryDisplay\":\"default\",\"legendDisplay\":\"show\",\"nestedLegend\":false,\"layerType\":\"data\"}]},\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filters\":[],\"datasourceStates\":{\"formBased\":{\"layers\":{\"3051692e-df73-4068-a317-2c05473d9d2d\":{\"columns\":{\"95b915af-97d2-4246-99cd-f6bb4314e89d\":{\"label\":\"Top 5 values of request.keyword\",\"dataType\":\"string\",\"operationType\":\"terms\",\"scale\":\"ordinal\",\"sourceField\":\"request.keyword\",\"isBucketed\":true,\"params\":{\"size\":5,\"orderBy\":{\"type\":\"column\",\"columnId\":\"9cee9a07-57a9-47dd-9714-724b8e5d873a\"},\"orderDirection\":\"desc\",\"otherBucket\":true,\"missingBucket\":false,\"parentFormat\":{\"id\":\"terms\"},\"include\":[],\"exclude\":[],\"includeIsRegex\":false,\"excludeIsRegex\":false}},\"9cee9a07-57a9-47dd-9714-724b8e5d873a\":{\"label\":\"Count of records\",\"dataType\":\"number\",\"operationType\":\"count\",\"isBucketed\":false,\"scale\":\"ratio\",\"sourceField\":\"___records___\",\"params\":{\"emptyAsNull\":true}}},\"columnOrder\":[\"95b915af-97d2-4246-99cd-f6bb4314e89d\",\"9cee9a07-57a9-47dd-9714-724b8e5d873a\"],\"incompleteColumns\":{},\"sampling\":1}}},\"textBased\":{\"layers\":{}}},\"internalReferences\":[],\"adHocDataViews\":{}}},\"hidePanelTitles\":false,\"enhancements\":{}},\"title\":\"routs in presantege\"},{\"version\":\"8.6.0\",\"type\":\"lens\",\"gridData\":{\"x\":17,\"y\":10,\"w\":31,\"h\":10,\"i\":\"6caa45fc-a7d0-4f59-939c-d5fbf7af9db5\"},\"panelIndex\":\"6caa45fc-a7d0-4f59-939c-d5fbf7af9db5\",\"embeddableConfig\":{\"attributes\":{\"title\":\"\",\"visualizationType\":\"lnsMetric\",\"type\":\"lens\",\"references\":[{\"type\":\"index-pattern\",\"id\":\"324e1964-0e1d-4206-a778-56cc90bf5139\",\"name\":\"indexpattern-datasource-layer-f1636156-99a2-47ce-a54f-870c7a2c7952\"}],\"state\":{\"visualization\":{\"layerId\":\"f1636156-99a2-47ce-a54f-870c7a2c7952\",\"layerType\":\"data\",\"metricAccessor\":\"e6bb95b8-f08b-4d29-8f3f-d48a067a65af\",\"breakdownByAccessor\":\"31242328-994c-44b0-9796-1c0eedd64ea6\",\"maxAccessor\":\"c7bdf901-352c-475b-bb1a-7c67304ca896\",\"showBar\":true},\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filters\":[],\"datasourceStates\":{\"formBased\":{\"layers\":{\"f1636156-99a2-47ce-a54f-870c7a2c7952\":{\"columns\":{\"31242328-994c-44b0-9796-1c0eedd64ea6\":{\"label\":\"Top 5 values of method.keyword\",\"dataType\":\"string\",\"operationType\":\"terms\",\"scale\":\"ordinal\",\"sourceField\":\"method.keyword\",\"isBucketed\":true,\"params\":{\"size\":5,\"orderBy\":{\"type\":\"alphabetical\",\"fallback\":true},\"orderDirection\":\"asc\",\"otherBucket\":true,\"missingBucket\":false,\"parentFormat\":{\"id\":\"terms\"},\"include\":[],\"exclude\":[],\"includeIsRegex\":false,\"excludeIsRegex\":false}},\"e6bb95b8-f08b-4d29-8f3f-d48a067a65afX0\":{\"label\":\"Part of count()\",\"dataType\":\"number\",\"operationType\":\"count\",\"isBucketed\":false,\"scale\":\"ratio\",\"sourceField\":\"___records___\",\"params\":{\"emptyAsNull\":false},\"customLabel\":true},\"e6bb95b8-f08b-4d29-8f3f-d48a067a65af\":{\"label\":\"count()\",\"dataType\":\"number\",\"operationType\":\"formula\",\"isBucketed\":false,\"scale\":\"ratio\",\"params\":{\"formula\":\"count()\",\"isFormulaBroken\":false},\"references\":[\"e6bb95b8-f08b-4d29-8f3f-d48a067a65afX0\"]},\"c7bdf901-352c-475b-bb1a-7c67304ca896\":{\"label\":\"Static value: 100\",\"dataType\":\"number\",\"operationType\":\"static_value\",\"isStaticValue\":true,\"isBucketed\":false,\"scale\":\"ratio\",\"params\":{\"value\":\"100\"},\"references\":[]}},\"columnOrder\":[\"31242328-994c-44b0-9796-1c0eedd64ea6\",\"e6bb95b8-f08b-4d29-8f3f-d48a067a65af\",\"e6bb95b8-f08b-4d29-8f3f-d48a067a65afX0\",\"c7bdf901-352c-475b-bb1a-7c67304ca896\"],\"incompleteColumns\":{},\"sampling\":1}}},\"textBased\":{\"layers\":{}}},\"internalReferences\":[],\"adHocDataViews\":{}}},\"enhancements\":{}}}]",
+          "title": "main dashboard",
+          "version": 1
+        },
+        "references": [
+          {
+            "type": "index-pattern",
+            "id": "324e1964-0e1d-4206-a778-56cc90bf5139",
+            "name": "37c5d686-8c68-4ef3-ba43-d77b391efe6e:indexpattern-datasource-layer-a8c67485-d3ca-4288-852e-008b9d6ef65d"
+          },
+          {
+            "type": "index-pattern",
+            "id": "324e1964-0e1d-4206-a778-56cc90bf5139",
+            "name": "6423407b-82e5-4594-9f1e-280de3eb8d1f:indexpattern-datasource-layer-7cc01091-ffa4-4ad8-ad43-54249142958b"
+          },
+          {
+            "type": "index-pattern",
+            "id": "324e1964-0e1d-4206-a778-56cc90bf5139",
+            "name": "aee607e5-6300-4e91-83ce-e1bb2602090e:indexpattern-datasource-layer-a3aea70b-947b-49f1-b263-86f911c1f0bb"
+          },
+          {
+            "type": "index-pattern",
+            "name": "aee607e5-6300-4e91-83ce-e1bb2602090e:debb0bc9-726d-454a-8786-7ed023eef5c3",
+            "id": "324e1964-0e1d-4206-a778-56cc90bf5139"
+          },
+          {
+            "type": "index-pattern",
+            "id": "324e1964-0e1d-4206-a778-56cc90bf5139",
+            "name": "58169997-09b2-4b19-a355-b8e244a826dc:indexpattern-datasource-layer-3051692e-df73-4068-a317-2c05473d9d2d"
+          },
+          {
+            "type": "index-pattern",
+            "id": "324e1964-0e1d-4206-a778-56cc90bf5139",
+            "name": "6caa45fc-a7d0-4f59-939c-d5fbf7af9db5:indexpattern-datasource-layer-f1636156-99a2-47ce-a54f-870c7a2c7952"
+          },
+          {
+            "type": "tag",
+            "id": "81f621f0-ac61-11ed-a41f-9110041f90aa",
+            "name": "tag-ref-81f621f0-ac61-11ed-a41f-9110041f90aa"
+          }
+        ],
+        "migrationVersion": {
+          "dashboard": "8.6.0"
+        },
+        "coreMigrationVersion": "8.6.0"
+      },
+      {
+        "id": "324e1964-0e1d-4206-a778-56cc90bf5139",
+        "type": "index-pattern",
+        "namespaces": [
+          "default"
+        ],
+        "updated_at": "2023-02-14T11:35:31.616Z",
+        "created_at": "2023-02-14T11:24:08.695Z",
+        "version": "WzczNCwxXQ==",
+        "attributes": {
+          "fieldAttrs": "{\"x_forwarded_for.keyword\":{\"count\":1}}",
+          "title": "logs",
+          "timeFieldName": "@timestamp",
+          "sourceFilters": "[]",
+          "fields": "[]",
+          "fieldFormatMap": "{}",
+          "typeMeta": "{}",
+          "runtimeFieldMap": "{}",
+          "name": "dvireview"
+        },
+        "references": [],
+        "migrationVersion": {
+          "index-pattern": "8.0.0"
+        },
+        "coreMigrationVersion": "8.6.0"
+      },
+      {
+        "id": "81f621f0-ac61-11ed-a41f-9110041f90aa",
+        "type": "tag",
+        "namespaces": [
+          "default"
+        ],
+        "updated_at": "2023-02-14T12:17:11.056Z",
+        "created_at": "2023-02-14T12:17:11.056Z",
+        "version": "WzE0NDIsMV0=",
+        "attributes": {
+          "name": "main",
+          "description": "true\n",
+          "color": "#1334f9"
+        },
+        "references": [],
+        "migrationVersion": {
+          "tag": "8.0.0"
+        },
+        "coreMigrationVersion": "8.6.0"
+      }
+      ]
+      }
+    data_view_json: |
+      {"attributes":{"fieldAttrs":"{\"x_forwarded_for.keyword\":{\"count\":1}}","fieldFormatMap":"{}","fields":"[]","name":"dvireview","runtimeFieldMap":"{}","sourceFilters":"[]","timeFieldName":"@timestamp","title":"logs","typeMeta":"{}"},"coreMigrationVersion":"8.6.0","created_at":"2023-02-14T11:24:08.695Z","id":"324e1964-0e1d-4206-a778-56cc90bf5139","migrationVersion":{"index-pattern":"8.0.0"},"references":[],"type":"index-pattern","updated_at":"2023-02-14T11:35:31.616Z","version":"WzczNCwxXQ=="}
+      {"excludedObjects":[],"excludedObjectsCount":0,"exportedCount":1,"missingRefCount":0,"missingReferences":[]}  

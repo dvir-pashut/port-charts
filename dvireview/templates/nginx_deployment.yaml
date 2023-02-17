@@ -17,3 +17,28 @@ spec:
       containers:
       - name: nginx
         image: us-docker.pkg.dev/task-1-375619/port-nginx/port-nginx:{{ .Values.image.tag }}
+
+---
+
+{{- if .Values.nginx.autoscaling.enabled }}
+apiVersion: "autoscaling/v2"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: {{.Chart.Name}}-autoscaling
+  labels:
+    app: "app"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: {{.Chart.Name}}-deplyment
+    apiVersion: "apps/v1"
+  minReplicas: {{.Values.nginx.autoscaling.min }}
+  maxReplicas: {{.Values.nginx.autoscaling.max }}
+  metrics:
+  - type: "Resource"
+    resource:
+      name: "cpu"
+      target:
+        type: "Utilization"
+        averageUtilization: {{.Values.nginx.autoscaling.averageUtilization }}
+{{- end }}

@@ -57,22 +57,19 @@ data:
 
 
   alert1.json: |
-    {"id":1,"uid":"u2tTI01Vz","orgID":1,"folderUID":"VU7TI01Vz","ruleGroup":"me","title":"memory cpu ","condition":"C","data":[{"refId":"A","queryType":"","relativeTimeRange":{"from":600,"to":0},"datasourceUid":"PBFA97CFB590B2093","model":{"editorMode":"code","expr":"(sum by (node)(rate(node_cpu_seconds_total{mode!=\"idle\"}[2m]))*100)","hide":false,"intervalMs":1000,"legendFormat":"__auto","maxDataPoints":43200,"range":true,"refId":"A"}},{"refId":"B","queryType":"","relativeTimeRange":{"from":600,"to":0},"datasourceUid":"-100","model":{"conditions":[{"evaluator":{"params":[],"type":"gt"},"operator":{"type":"and"},"query":{"params":["B"]},"reducer":{"params":[],"type":"last"},"type":"query"}],"datasource":{"type":"__expr__","uid":"-100"},"expression":"A","hide":false,"intervalMs":1000,"maxDataPoints":43200,"reducer":"last","refId":"B","type":"reduce"}},{"refId":"C","queryType":"","relativeTimeRange":{"from":600,"to":0},"datasourceUid":"-100","model":{"conditions":[{"evaluator":{"params":[80],"type":"gt"},"operator":{"type":"and"},"query":{"params":["C"]},"reducer":{"params":[],"type":"last"},"type":"query"}],"datasource":{"type":"__expr__","uid":"-100"},"expression":"B","hide":false,"intervalMs":1000,"maxDataPoints":43200,"refId":"C","type":"threshold"}}],"updated":"2023-02-16T16:01:21Z","noDataState":"NoData","execErrState":"Error","for":"1m"}
-  
-  alert2.json: |
-    {"id":2,"uid":"y-8AS014z","orgID":1,"folderUID":"VU7TI01Vz","ruleGroup":"me","title":"nodes cpu","condition":"C","data":[{"refId":"A","queryType":"","relativeTimeRange":{"from":600,"to":0},"datasourceUid":"PBFA97CFB590B2093","model":{"editorMode":"code","expr":"(sum by(instance) (irate(node_cpu_seconds_total{mode!=\"idle\"}[2m])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total[2m])))) * 100","hide":false,"intervalMs":1000,"legendFormat":"__auto","maxDataPoints":43200,"range":true,"refId":"A"}},{"refId":"B","queryType":"","relativeTimeRange":{"from":600,"to":0},"datasourceUid":"-100","model":{"conditions":[{"evaluator":{"params":[],"type":"gt"},"operator":{"type":"and"},"query":{"params":["B"]},"reducer":{"params":[],"type":"last"},"type":"query"}],"datasource":{"type":"__expr__","uid":"-100"},"expression":"A","hide":false,"intervalMs":1000,"maxDataPoints":43200,"reducer":"last","refId":"B","type":"reduce"}},{"refId":"C","queryType":"","relativeTimeRange":{"from":600,"to":0},"datasourceUid":"-100","model":{"conditions":[{"evaluator":{"params":[60],"type":"gt"},"operator":{"type":"and"},"query":{"params":["C"]},"reducer":{"params":[],"type":"last"},"type":"query"}],"datasource":{"type":"__expr__","uid":"-100"},"expression":"B","hide":false,"intervalMs":1000,"maxDataPoints":43200,"refId":"C","type":"threshold"}}],"updated":"2023-02-16T16:01:21Z","noDataState":"NoData","execErrState":"Error","for":"1m"}
-  
-  alert3.json: |
-    {"id":3,"uid":"IjV-IAJ4z","orgID":1,"folderUID":"VU7TI01Vz","ruleGroup":"me","title":"ram usage","condition":"C","data":[{"refId":"A","queryType":"","relativeTimeRange":{"from":600,"to":0},"datasourceUid":"PBFA97CFB590B2093","model":{"editorMode":"code","expr":"node_memory_MemAvailable_bytes / 1024 / 1024","hide":false,"intervalMs":1000,"legendFormat":"__auto","maxDataPoints":43200,"range":true,"refId":"A"}},{"refId":"B","queryType":"","relativeTimeRange":{"from":600,"to":0},"datasourceUid":"-100","model":{"conditions":[{"evaluator":{"params":[],"type":"gt"},"operator":{"type":"and"},"query":{"params":["B"]},"reducer":{"params":[],"type":"last"},"type":"query"}],"datasource":{"type":"__expr__","uid":"-100"},"expression":"A","hide":false,"intervalMs":1000,"maxDataPoints":43200,"reducer":"last","refId":"B","type":"reduce"}},{"refId":"C","queryType":"","relativeTimeRange":{"from":600,"to":0},"datasourceUid":"-100","model":{"conditions":[{"evaluator":{"params":[5000],"type":"gt"},"operator":{"type":"and"},"query":{"params":["C"]},"reducer":{"params":[],"type":"last"},"type":"query"}],"datasource":{"type":"__expr__","uid":"-100"},"expression":"B","hide":false,"intervalMs":1000,"maxDataPoints":43200,"refId":"C","type":"threshold"}}],"updated":"2023-02-16T16:01:21Z","noDataState":"NoData","execErrState":"Error","for":"1m"}
+{{ .Values.grafana.auto_load_alerts.alert1_jason | nindent 4 }}
 
-####you can add as meny as you like
+  alert2.json: |
+{{ .Values.grafana.auto_load_alerts.alert2_jason | nindent 4 }}
+
+  alert3.json: |
+{{ .Values.grafana.auto_load_alerts.alert3_jason | nindent 4 }}
 
   folder.json: |
-    {"uid": "VU7TI01Vz","title": "alerts"}
+{{ .Values.grafana.auto_load_alerts.folder_jason | nindent 4 }}
   
   contacts.json: |
-    {"uid":"jskMN0JVz","name":"grafana-notes","type":"slack","settings":{"url": "here" ,"username":"grafana"},"disableResolveMessage":false}
+{{ .Values.grafana.auto_load_alerts.contacts_json | nindent 4 }}
 
   notification_channel.json: |
-    {"receiver":"grafana-notes","group_by":["grafana_folder","alertname"]}
-    
+{{ .Values.grafana.auto_load_alerts.notification_channel_json | nindent 4 }}    
