@@ -17,5 +17,5 @@ spec:
     solvers:
     - http01:
         ingress:
-          class: {{ .Values.nginx.ingerss_calss_name }}
+          class: {{ .Values.ingerss.ingerss_calss_name }}
 {{- end }}
