@@ -13,7 +13,7 @@ data:
     yum install jq -y 
     # cat grafana/contacts.json > c.json
     # sed -i "s/here/${slack_webhook//\//\\/}/g" c.json  
-    jq '.settings.url = env.slack_webhook ' contacts.json > c.json 
+    jq '.settings.url = env.slack_webhook ' grafana/contacts.json > c.json 
     echo "waiting for grafana to be ready"
     check=1
     while [ $check == 1 ]
