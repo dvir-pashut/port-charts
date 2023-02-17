@@ -28,12 +28,12 @@ spec:
           value: "{{ .Values.kibana.port }}"
         - name: adminuser
           valueFrom:
-            configMapKeyRef: 
+            secretKeyRef: 
               name: grafanasec
               key: adminuser
         - name: adminpassword
           valueFrom:
-            configMapKeyRef: 
+            secretKeyRef: 
               name: grafanasec
               key: adminpassword
         command: ["/bin/sh","grafana/curl-script.sh"]
