@@ -46,6 +46,11 @@ data:
     curl -X PUT ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/policies  --user "${adminuser}:${adminpassword}" -d @notification_channel.json -H "Content-Type: application/json"   &> /dev/null
     echo done 
     sleep 20
+
+    DEAFULT_UID=$(curl -X GET ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/contact-points --user "${adminuser}:${adminpassword}" | jq -r '.[0].uid')
+    curl -X DELETE ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/contact-points/$DEAFULT_UID --user "${adminuser}:${adminpassword}"
+
+
     ##to get the stuff you made hardcoded use this routes
     ####curl ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/alert-rules/<uid> --user "admin:password" 
     ###curl ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/contact-points --user "admin:password"
@@ -67,7 +72,7 @@ data:
     {"uid": "VU7TI01Vz","title": "alerts"}
   
   contacts.json: |
-    {"uid":"jskMN0JVz","name":"grafana-notes","type":"slack","settings":{"url": slack_webhook ,"username":"grafana"},"disableResolveMessage":false}
+    {"uid":"jskMN0JVz","name":"grafana-notes","type":"slack","settings":{"url": "https://hooks.slack.com/services/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" ,"username":"grafana"},"disableResolveMessage":false}
 
   notification_channel.json: |
     {"receiver":"grafana-notes","group_by":["grafana_folder","alertname"]}
