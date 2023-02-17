@@ -8,7 +8,7 @@ data:
   curl-script.sh: |
     #!bin/sh
 
-    yum install epel-release -y
+    #yum install epel-release -y
     yum update -y
     yum install jq -y 
     # cat grafana/contacts.json > c.json
