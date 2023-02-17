@@ -40,7 +40,7 @@ nginx:
 ingress:
   enabled: true
   ingerss_calss_name: nginx
-  host: dvireview.ddns.net
+  host: dvireview.ddnsking.com
   tls: 
     enabled: true 
     email: "pashutdvir@gmail.com"
