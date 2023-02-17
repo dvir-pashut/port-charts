@@ -36,6 +36,11 @@ spec:
             secretKeyRef: 
               name: grafanasec
               key: adminpassword
+        - name: slack_webhook
+          valueFrom:
+            secretKeyRef: 
+              name: grafanasec
+              key: slack_webhook
         command: ["/bin/sh","grafana/curl-script.sh"]
         volumeMounts:
         - name: grafana-data

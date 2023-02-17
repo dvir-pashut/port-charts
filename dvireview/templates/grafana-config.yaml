@@ -13,6 +13,7 @@ data:
     do
       check=0
       echo "${GRAFANA_URL}:${GRAFANA_PORT}"
+      "${adminuser}:${adminpassword}"
       curl -i ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/contact-points --user "${adminuser}:${adminpassword}" &> /dev/null  || {  echo "not ready yet" && check=1; } 
       sleep 5
     done
