@@ -46,7 +46,7 @@ data:
     import_dashboards
 
   file.ndjson: |
-{{ .Values.kibana.auto_load_dashboard.dashboard_json | nindent 4 }}
-
-  file.json: |
 {{ .Values.kibana.auto_load_dashboard.data_view_json | nindent 4 }}
+  
+  file.json: |
+{{ .Values.kibana.auto_load_dashboard.dashboard_json | nindent 4 }}
