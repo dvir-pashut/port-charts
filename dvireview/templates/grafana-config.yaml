@@ -11,8 +11,7 @@ data:
     yum install epel-release -y
     yum update -y
     yum install jq -y 
-    cd grafana
-    # cat contacts.json > c.json
+    # cat grafana/contacts.json > c.json
     # sed -i "s/here/${slack_webhook//\//\\/}/g" c.json  
     jq '.settings.url = env.slack_webhook ' contacts.json > c.json 
     echo "waiting for grafana to be ready"
@@ -28,14 +27,14 @@ data:
     sleep 1
 
     echo "creating new folder for the alerts"
-    curl -X POST ${GRAFANA_URL}:${GRAFANA_PORT}/api/folders  -d @folder.json --user "${adminuser}:${adminpassword}"  -H "Content-Type: application/json"  &> /dev/null
+    curl -X POST ${GRAFANA_URL}:${GRAFANA_PORT}/api/folders  -d @grafana/folder.json --user "${adminuser}:${adminpassword}"  -H "Content-Type: application/json"  &> /dev/null
     echo "folder created"
     sleep 1 
 
     echo "adding the alerts"
     for i in {1..3}
     do
-    curl -X POST ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/alert-rules  -d @alert$i.json --user "${adminuser}:${adminpassword}"  -H "Content-Type: application/json" &> /dev/null
+    curl -X POST ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/alert-rules  -d @grafana/alert$i.json --user "${adminuser}:${adminpassword}"  -H "Content-Type: application/json" &> /dev/null
     sleep 1
     done
 
@@ -49,7 +48,7 @@ data:
 
     echo "updating the policies"
     sleep 1
-    curl -X PUT ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/policies  --user "${adminuser}:${adminpassword}" -d @notification_channel.json -H "Content-Type: application/json"   &> /dev/null
+    curl -X PUT ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/policies  --user "${adminuser}:${adminpassword}" -d @grafana/notification_channel.json -H "Content-Type: application/json"   &> /dev/null
     echo done 
 
 
