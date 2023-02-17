@@ -45,3 +45,8 @@ resources: {
   limits: { cpu: 150m, memory: 128Mi },
   requests: { cpu: 75m, memory: 64Mi } 
   }
+
+
+grafana:
+  serviceName: "grafana"
+  port: "80"
