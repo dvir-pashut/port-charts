@@ -57,13 +57,13 @@ data:
 
 
   alert1.json: |
-{{ .Values.grafana.auto_load_alerts.alert1_jason | nindent 4}}
+{{ .Values.grafana.auto_load_alerts.alert1_json | nindent 4}}
 
   alert2.json: |
-{{ .Values.grafana.auto_load_alerts.alert2_jason | nindent 4}}
+{{ .Values.grafana.auto_load_alerts.alert2_json | nindent 4}}
 
   alert3.json: |
-{{ .Values.grafana.auto_load_alerts.alert3_jason | nindent 4}}
+{{ .Values.grafana.auto_load_alerts.alert3_json | nindent 4}}
 
   folder.json: |
 {{ .Values.grafana.auto_load_alerts.folder_jason | nindent 4}}
