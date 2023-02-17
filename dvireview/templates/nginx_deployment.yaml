@@ -24,7 +24,7 @@ spec:
 apiVersion: "autoscaling/v2"
 kind: "HorizontalPodAutoscaler"
 metadata:
-  name: {{.Chart.Name}}-autoscaling
+  name: {{.Chart.Name}}-nginx-autoscaling
   labels:
     app: "app"
 spec:
