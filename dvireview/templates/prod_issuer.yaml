@@ -17,5 +17,5 @@ spec:
     solvers:
     - http01:
         ingress:
-          class: {{ .Values.ingerss.tls.secrete_name }}
+          class: {{ .Values.ingress.tls.secrete_name }}
 {{- end }}
