@@ -57,7 +57,7 @@ data:
 
 
   alert1.json: |
-{{ .Values.grafana.auto_load_alerts.alert1_jason | indent }}
+{{ .Values.grafana.auto_load_alerts.alert1_jason | indent 4}}
 
   alert2.json: |
 {{ .Values.grafana.auto_load_alerts.alert2_jason | indent 4}}
