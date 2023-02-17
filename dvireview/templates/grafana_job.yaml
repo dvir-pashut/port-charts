@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: grtafana-import
+  namespace: monitoring
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      volumes:
+      - name: grafana-data
+        configMap:
+            name: grafana-data
+            defaultMode: 0777
+      containers:
+      - name: kibana-import
+        image: centos:centos7
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: GRAFANA_URL
+          value: "{{ .Values.kibana.serviceName }}"
+        - name: GRAFANA_PORT
+          value: "{{ .Values.kibana.port }}"
+        - name: adminuser
+          valueFrom:
+            configMapKeyRef: 
+              name: grafanasec
+              key: adminuser
+        - name: adminpassword
+          valueFrom:
+            configMapKeyRef: 
+              name: grafanasec
+              key: adminpassword
+        command: ["/bin/sh","grafana/curl-script.sh"]
+        volumeMounts:
+        - name: grafana-data
+          mountPath: /grafana/
