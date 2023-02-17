@@ -9,6 +9,9 @@ data:
     #!bin/sh
 
     cd grafana
+    # cat contacts.json > c.json
+    # sed -i "s/here/${slack_webhook//\//\\/}/g" c.json  
+    jq '.settings.url = env.slack_webhook ' contacts.json > c.json 
     echo "waiting for grafana to be ready"
     check=1
     while [ $check == 1 ]
@@ -22,7 +25,7 @@ data:
     sleep 1
 
     echo "creating new folder for the alerts"
-    curl -X POST ${GRAFANA_URL}:${GRAFANA_PORT}/api/folders  -d @folder.json --user "${adminuser}:${adminpassword}"  -H "Content-Type: application/json"  &> /dev/null || { echo "faild creating folder"; }
+    curl -X POST ${GRAFANA_URL}:${GRAFANA_PORT}/api/folders  -d @folder.json --user "${adminuser}:${adminpassword}"  -H "Content-Type: application/json"  &> /dev/null 
     echo "folder created"
     sleep 1 
 
@@ -37,7 +40,7 @@ data:
     sleep 1
 
     echo "adding the contact point" 
-    curl -X POST ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/contact-points  -d @contacts.json --user "${adminuser}:${adminpassword}"  -H "Content-Type: application/json" &> /dev/null
+    curl -X POST ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/contact-points  -d @c.json --user "${adminuser}:${adminpassword}"  -H "Content-Type: application/json" &> /dev/null
     sleep 1
     echo "contact point added"
 
@@ -46,12 +49,9 @@ data:
     curl -X PUT ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/policies  --user "${adminuser}:${adminpassword}" -d @notification_channel.json -H "Content-Type: application/json"   &> /dev/null
     echo done 
 
-
     ##to get the stuff you made hardcoded use this routes
     ###curl ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/alert-rules/<uid> --user "admin:password" 
     ###curl ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/contact-points --user "admin:password"
-
-
 
   alert1.json: |
     {"id":1,"uid":"u2tTI01Vz","orgID":1,"folderUID":"VU7TI01Vz","ruleGroup":"me","title":"memory cpu ","condition":"C","data":[{"refId":"A","queryType":"","relativeTimeRange":{"from":600,"to":0},"datasourceUid":"PBFA97CFB590B2093","model":{"editorMode":"code","expr":"(sum by (node)(rate(node_cpu_seconds_total{mode!=\"idle\"}[2m]))*100)","hide":false,"intervalMs":1000,"legendFormat":"__auto","maxDataPoints":43200,"range":true,"refId":"A"}},{"refId":"B","queryType":"","relativeTimeRange":{"from":600,"to":0},"datasourceUid":"-100","model":{"conditions":[{"evaluator":{"params":[],"type":"gt"},"operator":{"type":"and"},"query":{"params":["B"]},"reducer":{"params":[],"type":"last"},"type":"query"}],"datasource":{"type":"__expr__","uid":"-100"},"expression":"A","hide":false,"intervalMs":1000,"maxDataPoints":43200,"reducer":"last","refId":"B","type":"reduce"}},{"refId":"C","queryType":"","relativeTimeRange":{"from":600,"to":0},"datasourceUid":"-100","model":{"conditions":[{"evaluator":{"params":[80],"type":"gt"},"operator":{"type":"and"},"query":{"params":["C"]},"reducer":{"params":[],"type":"last"},"type":"query"}],"datasource":{"type":"__expr__","uid":"-100"},"expression":"B","hide":false,"intervalMs":1000,"maxDataPoints":43200,"refId":"C","type":"threshold"}}],"updated":"2023-02-16T16:01:21Z","noDataState":"NoData","execErrState":"Error","for":"1m"}
@@ -68,7 +68,7 @@ data:
     {"uid": "VU7TI01Vz","title": "alerts"}
   
   contacts.json: |
-    {"uid":"jskMN0JVz","name":"grafana-notes","type":"slack","settings":{"url": "https://hooks.slack.com/services/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" ,"username":"grafana"},"disableResolveMessage":false}
+    {"uid":"jskMN0JVz","name":"grafana-notes","type":"slack","settings":{"url": "here" ,"username":"grafana"},"disableResolveMessage":false}
 
   notification_channel.json: |
     {"receiver":"grafana-notes","group_by":["grafana_folder","alertname"]}

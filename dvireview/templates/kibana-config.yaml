@@ -29,7 +29,6 @@ data:
         fi
         echo ${OUTPUT}
     }
-    
     #Import dashboards
     function import_dashboards {
         echo "Importing dashboards..."
@@ -42,7 +41,6 @@ data:
         fi
         echo ${OUTPUT}
     }
-    
     wait_for_kibana
     import_data_view
     import_dashboards
