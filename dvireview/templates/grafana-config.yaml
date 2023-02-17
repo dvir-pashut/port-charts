@@ -7,6 +7,7 @@ data:
   
   curl-script.sh: |
     #!bin/sh
+    cd grafana
     echo "waiting for grafana to be ready"
     check=1
     while [ $check == 1 ]
