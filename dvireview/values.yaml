@@ -10,7 +10,7 @@ image:
 app_service_name: "dvireview-service"
 
 autoscaling: 
-  enabled: false
+  enabled: true
   min: 3
   max: 6
   averageUtilization: 80
