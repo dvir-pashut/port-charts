@@ -9,7 +9,7 @@ metadata:
     cert-manager.io/cluster-issuer: {{ .Values.ingress.tls.issuer_name }}
   {{- end }}
 spec:
-  ingressClassName: {{ .Values.nginx.ingerss_calss_name }}
+  ingressClassName: {{ .Values.ingress.ingerss_calss_name }}
   rules:
   - host: {{ .Values.ingress.host }}
     http:
