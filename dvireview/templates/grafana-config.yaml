@@ -9,6 +9,7 @@ data:
     #!bin/sh
     cd grafana
     echo "waiting for grafana to be ready"
+    sed -i 's/"url":\s*"[^"]*"/"url": "${slack_webhook}"/' contacts.json
     check=1
     while [ $check == 1 ]
     do
@@ -66,7 +67,7 @@ data:
     {"uid": "VU7TI01Vz","title": "alerts"}
   
   contacts.json: |
-    {"uid":"jskMN0JVz","name":"grafana-notes","type":"slack","settings":{"url": "${slack_webhook}","username":"grafana"},"disableResolveMessage":false}
+    {"uid":"jskMN0JVz","name":"grafana-notes","type":"slack","settings":{"url": slack_webhook ,"username":"grafana"},"disableResolveMessage":false}
 
   notification_channel.json: |
     {"receiver":"grafana-notes","group_by":["grafana_folder","alertname"]}
