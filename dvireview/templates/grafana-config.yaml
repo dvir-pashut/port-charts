@@ -50,12 +50,12 @@ data:
     echo done 
 
     #deleting the default contact point
-    #DEAFULT_UID=$(curl -X GET ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/contact-points --user "${adminuser}:${adminpassword}" | jq -r '.[0].uid')
-    #curl -X DELETE ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/contact-points/$DEAFULT_UID --user "${adminuser}:${adminpassword}"
+    DEAFULT_UID=$(curl -X GET ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/contact-points --user "${adminuser}:${adminpassword}" | jq -r '.[0].uid')
+    curl -X DELETE ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/contact-points/$DEAFULT_UID --user "${adminuser}:${adminpassword}"
 
 
     ##to get the stuff you made hardcoded use this routes
-    ####curl ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/alert-rules/<uid> --user "admin:password" 
+    ###curl ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/alert-rules/<uid> --user "admin:password" 
     ###curl ${GRAFANA_URL}:${GRAFANA_PORT}/api/v1/provisioning/contact-points --user "admin:password"
 
 
