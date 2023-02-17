@@ -23,7 +23,8 @@ data:
     echo "creating new folder for the alerts"
     curl -X POST ${GRAFANA_URL}:${GRAFANA_PORT}/api/folders  -d @folder.json --user "${adminuser}:${adminpassword}"  -H "Content-Type: application/json"  &> /dev/null
     echo "folder created"
-
+    ls
+    pwd
     sleep 1 
 
     echo "adding the alerts"
