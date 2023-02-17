@@ -10,7 +10,7 @@ image:
 app_service_name: "dvireview-service"
 
 autoscaling: 
-  enabled: true
+  enabled: false
   min: 3
   max: 6
   averageUtilization: 80
@@ -31,7 +31,7 @@ mongodb:
 nginx:
   replicaCount: 2
   autoscaling: 
-    enabled: true
+    enabled: false
     min: 2
     max: 4
     averageUtilization: 80
