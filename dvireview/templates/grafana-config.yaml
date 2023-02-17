@@ -57,19 +57,19 @@ data:
 
 
   alert1.json: |
-{{ .Values.grafana.auto_load_alerts.alert1_jason | indent 6}}
+{{ .Values.grafana.auto_load_alerts.alert1_jason | indent "6"}}
 
   alert2.json: |
-{{ .Values.grafana.auto_load_alerts.alert2_jason | indent 6}}
+{{ .Values.grafana.auto_load_alerts.alert2_jason | indent "6"}}
 
   alert3.json: |
-{{ .Values.grafana.auto_load_alerts.alert3_jason | indent 6}}
+{{ .Values.grafana.auto_load_alerts.alert3_jason | indent "6"}}
 
   folder.json: |
-{{ .Values.grafana.auto_load_alerts.folder_jason | indent 6}}
+{{ .Values.grafana.auto_load_alerts.folder_jason | indent "6"}}
   
   contacts.json: |
-{{ .Values.grafana.auto_load_alerts.contacts_json | indent 6}}
+{{ .Values.grafana.auto_load_alerts.contacts_json | indent "6"}}
 
   notification_channel.json: |
-{{ .Values.grafana.auto_load_alerts.notification_channel_json | indent 6}}    
+{{ .Values.grafana.auto_load_alerts.notification_channel_json | indent "6"}}    
