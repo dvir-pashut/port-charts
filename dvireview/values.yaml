@@ -8,14 +8,18 @@ image:
   name: "us-docker.pkg.dev/task-1-375619/dvireview/dvireview"
   tag: 1.4.7
 app_service_name: "dvireview-service"
-
 autoscaling: 
   enabled: true
   min: 3
   max: 6
   averageUtilization: 80
 
-#db settings
+resources: {
+  limits: { cpu: 150m, memory: 128Mi },
+  requests: { cpu: 75m, memory: 64Mi } 
+  }
+
+#####################db settings##########################33
 mongodb:
   replicaCount: 3
   useStatefulSet: true
@@ -27,7 +31,10 @@ mongodb:
     usernames: ["dvir"]
     databases: ["dvireview"]
     existingSecret: mongo-sec
-  
+
+
+
+##########33nginx###################3
 nginx:
   replicaCount: 2
   autoscaling: 
@@ -36,7 +43,9 @@ nginx:
     max: 4
     averageUtilization: 80
   service_name: "nginx-service"
-    
+
+
+########################## ingressssssss#############
 ingress:
   enabled: true
   ingerss_calss_name: nginx
@@ -47,12 +56,7 @@ ingress:
     secrete_name: "my-secreat"
     issuer_name: "letsencrypt-prod"
 
-
-resources: {
-  limits: { cpu: 150m, memory: 128Mi },
-  requests: { cpu: 75m, memory: 64Mi } 
-  }
-
+###########3automate grafana##############
 
 grafana:
   serviceName: "grafana"
@@ -77,9 +81,7 @@ grafana:
     notification_channel_json: |
       {"receiver":"grafana-notes","group_by":["grafana_folder","alertname"]}
 
-
-
-
+#############automate kibana###############3
 
 kibana:
   serviceName: "elasticsearch-kibana"

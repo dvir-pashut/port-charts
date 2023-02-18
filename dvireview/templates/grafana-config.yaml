@@ -1,3 +1,4 @@
+{{- if .Values.grafana.auto_load_alerts.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -72,3 +73,5 @@ data:
 
   notification_channel.json: |
 {{ .Values.grafana.auto_load_alerts.notification_channel_json | indent 4}}
+
+{{- end }}
