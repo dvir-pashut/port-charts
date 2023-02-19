@@ -1,0 +1,18 @@
+apiVersion: v1
+data:
+  nginx-prod.conf: "#events {}  # event context needs to be defined to consider config
+    valid\n\n#if load balance is requierd\nupstream backend {\n    server dvireview-service:80;\n}\n\n\n
+    \ server {\n    listen 80;\n    root /usr/share/nginx/html;\n\n  \n    location
+    / {\n        add_header From  \"nginx\";\n        try_files $uri /$uri @backend;\n
+    \   }\n\n    location = /favicon.ico {\n        add_header From  \"nginx\";\n
+    \       proxy_pass https://storage.googleapis.com/staticfiles-dvir/images/favicon.ico;\n
+    \   }\n    \n    location /static/ {\n        proxy_pass https://storage.googleapis.com/staticfiles-dvir/;\n
+    \       proxy_set_header Host storage.googleapis.com;\n        add_header From
+    \"static\";\n    }\n\n    location @backend {\n        proxy_pass         http://dvireview-service:80;\n
+    \       \n        proxy_redirect     off;\n        proxy_set_header   Host             $host;\n
+    \       proxy_set_header   X-Real-IP        $remote_addr;\n        proxy_set_header
+    \  X-Forwarded-For  $proxy_add_x_forwarded_for;\n        proxy_set_header   user-agent
+    \      $http_user_agent;\n        add_header From  \"flask\";\n    }\n    \n    \n}\n"
+kind: ConfigMap
+metadata:
+  name: nginx-conf
