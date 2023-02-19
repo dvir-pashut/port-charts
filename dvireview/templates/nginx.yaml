@@ -15,4 +15,4 @@ data:
     \      $http_user_agent;\n        add_header From  \"flask\";\n    }\n    \n    \n}\n"
 kind: ConfigMap
 metadata:
-  name: nginx.conf
+  name: nginx-conf
