@@ -1,2 +1,4 @@
 # port-charts
-charts for the portfolio
+this is the gitops repo<br>
+
+and contains of the applications helm chart 
