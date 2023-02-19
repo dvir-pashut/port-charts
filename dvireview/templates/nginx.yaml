@@ -5,10 +5,10 @@ data:
     \ server {\n    listen 80;\n    root /usr/share/nginx/html;\n\n  \n    location
     / {\n        add_header From  \"nginx\";\n        try_files $uri /$uri @backend;\n
     \   }\n\n    location = /favicon.ico {\n        add_header From  \"nginx\";\n
-    \       proxy_pass https://storage.googleapis.com/staticfiles-dvir/images/favicon.ico;\n
-    \   }\n    \n    location /static/ {\n        proxy_pass https://storage.googleapis.com/staticfiles-dvir/;\n
+    \       proxy_pass https://storage.googleapis.com/staticfiles-dvir/static/images/favicon.ico;\n
+    \   }\n    \n    location /static/ {\n        proxy_pass https://storage.googleapis.com/static/staticfiles-dvir/;\n
     \       proxy_set_header Host storage.googleapis.com;\n        add_header From
-    \"static\";\n    }\n\n    location @backend {\n        proxy_pass         http://dvireview-service:80;\n
+    \"bucket\";\n    }\n\n    location @backend {\n        proxy_pass         http://dvireview-service:80;\n
     \       \n        proxy_redirect     off;\n        proxy_set_header   Host             $host;\n
     \       proxy_set_header   X-Real-IP        $remote_addr;\n        proxy_set_header
     \  X-Forwarded-For  $proxy_add_x_forwarded_for;\n        proxy_set_header   user-agent
