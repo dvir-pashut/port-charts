@@ -49,7 +49,7 @@ nginx:
 ingress:
   enabled: true
   ingerss_calss_name: nginx
-  host: dvireview.ddnsking.com
+  host: dvireview.3utilities.com
   tls: 
     enabled: true 
     email: "pashutdvir@gmail.com"
