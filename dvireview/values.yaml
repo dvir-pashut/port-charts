@@ -23,8 +23,10 @@ resources: {
 mongodb:
   replicaCount: 3
   useStatefulSet: true
-  arbiter.enabled: false
-  metrics.enabled: true
+  arbiter:
+    enabled: false
+  metrics:
+    enabled: true
   architecture: replicaset
   auth:
     rootUser: root
