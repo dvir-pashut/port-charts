@@ -21,7 +21,7 @@ resources: {
 
 #####################db settings##########################33
 mongodb:
-  replicaCount: 3
+  replicaCount: 1
   useStatefulSet: true
   arbiter.enabled: false
   metrics.enabled: true
@@ -45,7 +45,7 @@ nginx:
   service_name: "nginx-service"
 
 
-########################## ingressssssss#############
+########################## ingressssssss #############
 ingress:
   enabled: true
   ingerss_calss_name: nginx
