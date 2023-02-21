@@ -21,7 +21,7 @@ resources: {
 
 #####################db settings##########################33
 mongodb:
-  replicaCount: 1
+  replicaCount: 3
   useStatefulSet: true
   arbiter:
     enabled: false
