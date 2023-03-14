@@ -51,7 +51,7 @@ nginx:
 ingress:
   enabled: true
   ingerss_calss_name: nginx
-  host: dvireview.3utilities.com
+  host: dvireview.gleeze.com
   tls: 
     enabled: true 
     email: "pashutdvir@gmail.com"
