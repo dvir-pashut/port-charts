@@ -53,7 +53,7 @@ ingress:
   ingerss_calss_name: nginx
   host: dvireview.gleeze.com
   tls: 
-    enabled: true 
+    enabled: false 
     email: "pashutdvir@gmail.com"
     secrete_name: "my-secreat"
     issuer_name: "letsencrypt-prod"
