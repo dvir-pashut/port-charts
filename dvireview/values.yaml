@@ -55,7 +55,7 @@ ingress:
   tls: 
     enabled: false 
     email: "pashutdvir@gmail.com"
-    secrete_name: "my-secreat"
+    secrete_name: "tls-stuff"
     issuer_name: "letsencrypt-prod"
 
 ###########3automate grafana##############
